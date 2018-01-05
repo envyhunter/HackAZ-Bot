@@ -41,12 +41,13 @@ async def on_command(command, ctx):
 @bot.command(pass_context=True)
 async def report(ctx, user, *message):
     try:
+        discord.Object(id=user[3:-1]).created_at #This is checking if user exists and throwing an error DON'T Erase
         author = ctx.message.author
         print(author)
         await bot.send_message(discord.Object(id='397562402033369088'),
-                               "Report: \n\tFrom: " + str(
-                                   ctx.message.author) + "\n\tAgainst: " + str(
-                                   user) + "\n\tDescription: \n\t\t\"" +
+                               "Report: \n\tFrom: " + 
+                               str(ctx.message.author) + "\n\tAgainst: " +
+                               str(user) + "\n\tDescription: \n\t\t\"" +
                                ' '.join(message) + "\"")
     except Exception:
         await bot.send_message(ctx.message.author,
