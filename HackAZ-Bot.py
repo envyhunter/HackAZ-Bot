@@ -9,7 +9,7 @@ from profanity_Filter import profanity_Filter
 from discord.ext.commands import Bot
 
 # ____SET-UP____#
-bot = Bot(command_prefix="#")
+bot = Bot(command_prefix="!")
 apps = [profanity_Filter]
 
 
@@ -22,19 +22,25 @@ async def on_ready():
 
 @bot.event
 async def on_message_edit(before, after):
-    print(bot.get_message(id=after.id))
+    if before.author.id != bot.user.id:
+        await bot.send_message(discord.Object(id='398952807107002370'), str(before.author) + "Edit :" + 
+                                                                        ":\n\tBefore: " + before.content + 
+                                                                        "\n\tAfter: " + after.content)
+    on_message(after)
 
 
 @bot.event
 async def on_message(message):
+    if message.author.id != bot.user.id:
+        await bot.send_message(discord.Object(id='398952807107002370'), str(message.author) + ": " + message.content)
     for app in apps:
         await app(message, bot)
     await bot.process_commands(message)
 
 
-@bot.event
-async def on_command(command, ctx):
-    print("test")
+#@bot.event
+#async def on_command(command, ctx):
+#    print("test")
 
 
 # ____COMMANDS____#
